@@ -128,7 +128,8 @@ module.exports={
                 return res.json({
                     success:1,
                     message:"Login Sucessfully",
-                    token:jsontoken
+                    token:jsontoken,
+                    userId:result.id
                 })
             }else
             {

@@ -1,7 +1,12 @@
 const {createProduct,getProducts,getProductById,getProductByName,updateProduct,deleteProduct}=require("./product.service");
 module.exports={
     createProduct:(req,res)=>{
+        console.log(req.body);
         const body=req.body;
+
+        body.img=req.file.filename;
+        
+        console.log(req.file)
         createProduct(body,(err,result)=>{
             if(err){
                 console.log(err);
@@ -14,8 +19,10 @@ module.exports={
             return res.status(200).json({
                 success:1,
                 data:result,
+                message:"Data added successfully",
+                image_url:`http://localhost:3001/img/${req.file.filename}`
             });
-        });
+    })
     },
     getProducts:(req,res)=>{
         getProducts((err,result)=>{
