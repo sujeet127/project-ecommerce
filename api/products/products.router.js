@@ -4,7 +4,7 @@ const multer = require('multer');
 const path = require('path');
 const express = require('express');
 const app=express();
-
+const {checktoken}=require ("../../auth/token_validation");
 const storage=multer.diskStorage({
     destination:'upload/images',
     filename:(req,file,cb)=>{
@@ -31,7 +31,7 @@ app.use(errHandler);
 router.post("/",upload.single('img'),createProduct);
 router.get("/",getProducts);
 router.get("/:id",getProductById);
-router.get("/product",getProductByName);
-router.put("/",updateProduct);
-router.delete("/:id",deleteProduct);
+router.get("/product",checktoken,getProductByName);
+router.put("/",checktoken,updateProduct);
+router.delete("/:id",checktoken,deleteProduct);
 module.exports=router;

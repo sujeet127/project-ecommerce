@@ -1,13 +1,10 @@
-const {createProduct,getProducts,getProductById,getProductByName,updateProduct,deleteProduct}=require("./product.service");
+
+const {createCart,getCart,getCartById,deleteCart} = require('./cart.service');
 module.exports={
-    createProduct:(req,res)=>{
+    createCart:(req,res)=>{
         console.log(req.body);
         const body=req.body;
-
-        body.img=req.file.filename;
-        
-        console.log(req.file)
-        createProduct(body,(err,result)=>{
+        createCart(body,(err,result)=>{
             if(err){
                 console.log(err);
                 return res.status(500).json({
@@ -20,17 +17,18 @@ module.exports={
                 success:1,
                 data:result,
                 message:"Data added successfully",
-                image_url:`http://localhost:3001/img/${req.file.filename}`
+                image_url:`http://localhost:3001/img/${body.img}`
             });
     })
     },
-    getProducts:(req,res)=>{
-        getProducts((err,result)=>{
+    getCart:(req,res)=>{
+        const id=req.params.id;
+        getCart(id,(err,result)=>{
             if(err){
                 console.log(err);
                 return;
             }
-            if(!result){
+            if(!result ){
                 res.json({
                     success:1,
                     message:"No record found",
@@ -43,9 +41,9 @@ module.exports={
         
         })
     },
-    getProductById:(req,res)=>{
+    getCartById:(req,res)=>{
         const id=req.params.id;
-        getProductById(id,(err,result)=>{
+        getCartById(id,(err,result)=>{
             if(err){
                 console.log(err);
                 return ;
@@ -63,47 +61,9 @@ module.exports={
 
         });
     },
-    getProductByName:(req,res)=>{
-        const name=req.params.product_name;
-        getProductByName(name,(err,result)=>{
-            if(err){
-                console.log(err);
-                return ;
-            }
-            if(!result){
-                res.json({
-                    success:0,
-                    message:"No record found",
-                });
-            }
-            return res.status(200).json({
-                success:1,
-                data:result,
-            });
-        });
-    },
-    updateProduct:(req,res)=>{
-        const body=req.body;
-        updateProduct(body,(err,result)=>{
-            if(err){
-                console.log(err);
-                return res.status(500).json({
-                    success:0,
-                    message:"Database connection error",
-
-                });
-            }
-            return res.status(200).json({
-                success:1,
-                message:"updated Sucessfully",
-                
-            });
-        });
-
-    },
-    deleteProduct:(req,res)=>{
+    deleteCart:(req,res)=>{
         const id=req.params.id;
-        deleteProduct(id,(err,result)=>{
+        deleteCart(id,(err,result)=>{
             if(err){
                 console.log(err);
                 return ;
@@ -116,11 +76,10 @@ module.exports={
             }
             return res.status(200).json({
                 success:1,
-                message:"User deleted sucessfully",
+                message:"data deleted sucessfully",
             })
 
         });
 
     },
-    
 }

@@ -8,6 +8,8 @@ const path = require('path');
 
 const userRouter=require("./api/users/user.router");
 const productRouter=require("./api/products/products.router");
+const cartRouter= require("./api/cart/cart.router");
+const addressRouter=require("./api/address/address.router");
 //storage engine
 const storage=multer.diskStorage({
     destination:'upload/images',
@@ -40,9 +42,13 @@ app.use(errHandler);
 app.use(cors());
 app.use(express.urlencoded({extended: true}))
 app.use(express.json());
-app.use("/api/users",userRouter);
 
+app.use("/api/users",userRouter);
 app.use("/api/products",productRouter);
+app.use("/api/cart",cartRouter);
+app.use("/api/address",addressRouter);
+
+
 app.listen(process.env.APP_PORT,()=>{
     console.log("server is running at port no: ",process.env.APP_PORT);
 })
